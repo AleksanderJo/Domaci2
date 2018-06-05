@@ -1,0 +1,53 @@
+package example.domacidva.domaci2;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class ModelA5Activity extends AppCompatActivity implements View.OnClickListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_model_a5);
+
+        findViewById(R.id.buttonPosaljiA5).setOnClickListener(this);
+
+        Bundle extra = getIntent().getExtras();
+
+        assert extra != null;
+        String gorivo = extra.getString("gorivo");
+        Boolean xenonSvetla = extra.getBoolean("xenonsvetla");
+        Boolean parkingSenzori = extra.getBoolean("parkingsenzori");
+
+        String odabrani = "Odabrali ste audi ";
+        odabrani += "A5 ";
+        odabrani += gorivo;
+
+        ((TextView) findViewById(R.id.labelOdabranA5)).setText(odabrani);
+
+        String oprema = "Dodatna oprema: ";
+        oprema += (xenonSvetla)? "Xenon svetla":"";
+        oprema += (xenonSvetla && parkingSenzori)? ", ":"";
+        oprema += (parkingSenzori)? "Parking senzori":"";
+
+        ((TextView) findViewById(R.id.labelOdabranaOpremaA5)).setText(oprema);
+    }
+    public void onClick(View view) {
+
+        RadioGroup radioGroupSnage = findViewById(R.id.radioGroupSnageA5);
+        int idSnage = radioGroupSnage.getCheckedRadioButtonId();
+
+        RadioButton Snage = findViewById(idSnage);
+
+        Toast.makeText(this, "Uskoro cete dobiti poruku o stanju izabranog automobila od " + Snage.getText() + " na lageru.", Toast.LENGTH_SHORT).show();
+
+        Intent iprelazNaMein = new Intent(this, MainActivity.class);
+        startActivity(iprelazNaMein);
+    }
+}
