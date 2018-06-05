@@ -1,0 +1,80 @@
+package example.domacidva.domaci2;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+public class IzborModelaActivity extends AppCompatActivity {
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_izbor_modela);
+
+        addListenerOnButton();
+
+    }
+    public void addListenerOnButton(){
+
+        final RadioGroup radioGroupModel = findViewById(R.id.radioGroupModel);
+
+        Button buttonProsledi = findViewById(R.id.buttonProsledi);
+        buttonProsledi.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int idModel = radioGroupModel.getCheckedRadioButtonId();
+
+                switch (idModel){
+
+                    case R.id.radioButtonA4:
+                        Intent iModelA4Activity = new Intent(v.getContext(), ModelA4Activity.class);
+                        doPrenesi(iModelA4Activity);
+                        break;
+
+                    case R.id.radioButtonA5:
+                        Intent iModelA5Activity = new Intent(v.getContext(), ModelA5Activity.class);
+                        doPrenesi(iModelA5Activity);
+                        break;
+                }
+            }
+        });
+
+        }
+     public void doPrenesi(Intent intent){
+
+        RadioGroup radioGroupGorivo = findViewById(R.id.radioGroupGorivo);
+        int idGorivo = radioGroupGorivo.getCheckedRadioButtonId();
+
+        Boolean xenonSvetla = ((CheckBox) findViewById(R.id.checkBoxXenonSvetla)).isChecked();
+        Boolean parkingSenzori = ((CheckBox) findViewById(R.id.checkBoxParkingSenzori)).isChecked();
+
+        Bundle extra = new Bundle();
+
+        switch(idGorivo) {
+
+            case R.id.radioButtonDizel:
+                extra.putString("gorivo", ((RadioButton) findViewById(R.id.radioButtonDizel)).getText().toString());
+                break;
+
+            case R.id.radioButtonBenzin:
+                extra.putString("gorivo", ((RadioButton) findViewById(R.id.radioButtonBenzin)).getText().toString());
+                break;
+        }
+
+        if(xenonSvetla) extra.putBoolean("xenonsvetla", xenonSvetla);
+        if(parkingSenzori) extra.putBoolean("parkingsenzori",parkingSenzori);
+
+        intent.putExtras(extra);
+
+        startActivity(intent);
+
+     }
+    }
