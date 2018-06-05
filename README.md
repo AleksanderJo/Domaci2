@@ -1,5 +1,3 @@
-# Domaci2
-
 package example.domacidva.domaci2;
 
 import android.content.Intent;
